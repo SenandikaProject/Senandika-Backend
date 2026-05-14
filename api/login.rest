@@ -1,0 +1,133 @@
+###################################################
+# SENANDIKA REST API TEST
+###################################################
+
+###################################################
+# AUTH
+###################################################
+
+### REGISTER
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "email": "test2@gmail.com",
+    "password": "123456"
+}
+
+###################################################
+
+### LOGIN
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "123456"
+}
+
+###################################################
+
+### GET PROFILE
+GET http://localhost:5000/api/auth/profile
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc3ODc2MTIxMSwiZXhwIjoxNzc5MzY2MDExfQ.2sJk7eOgR5cds7nWBHn4_z7qAIkaOTnyZRD87002FOo
+
+###################################################
+
+### FORGOT PASSWORD
+POST http://localhost:5000/api/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "test2@gmail.com"
+}
+
+###################################################
+
+### CHANGE PASSWORD
+PUT http://localhost:5000/api/auth/change-password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+{
+    "oldPassword": "123456",
+    "newPassword": "abcdef"
+}
+
+###################################################
+# MOOD
+###################################################
+
+### CREATE MOOD
+POST http://localhost:5000/api/moods
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc3ODc2MTIxMSwiZXhwIjoxNzc5MzY2MDExfQ.2sJk7eOgR5cds7nWBHn4_z7qAIkaOTnyZRD87002FOo
+
+{
+    "tanggal": "2026-05-14",
+    "tingkat_mood": 4,
+    "catatan": "Hari ini mood user 1 lagi senang"
+}
+
+###################################################
+
+### GET ALL MOODS
+GET http://localhost:5000/api/moods
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+###################################################
+
+### GET MOOD STATISTICS
+GET http://localhost:5000/api/moods/statistics
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+###################################################
+# JOURNAL
+###################################################
+
+### CREATE JOURNAL
+POST http://localhost:5000/api/journals
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+{
+    "tanggal": "2026-05-16",
+    "isi": "Hari ini saya belajar membuat kue"
+}
+
+###################################################
+
+### GET ALL JOURNALS
+GET http://localhost:5000/api/journals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+###################################################
+
+### GET JOURNAL STREAK
+GET http://localhost:5000/api/journals/streak
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3Nzg3NjA2MjEsImV4cCI6MTc3OTM2NTQyMX0.7-4hk3vuEYDBqirVhpbLtz5-HlqQ8X7mEUJz0XOjPhY
+
+###################################################
+# RECOMMENDATION
+###################################################
+
+### GET ALL RECOMMENDATIONS
+GET http://localhost:5000/api/recommendations
+
+###################################################
+
+### GET RECOMMENDATION BY ID
+GET http://localhost:5000/api/recommendations/1
+
+###################################################
+# RESET PASSWORD (OPTIONAL)
+###################################################
+
+### RESET PASSWORD
+PUT http://localhost:5000/api/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "RESET_TOKEN",
+    "newPassword": "passwordbaru123"
+}
