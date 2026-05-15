@@ -131,3 +131,16 @@ Content-Type: application/json
     "token": "RESET_TOKEN",
     "newPassword": "passwordbaru123"
 }
+
+### SETUP PROFILE
+POST http://localhost:5000/api/profile/setup
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc4ODAyOTk3LCJleHAiOjE3Nzk0MDc3OTd9.DgaXprEADhhuDxeTKkMJmpNiPXsH7ck3Cr-q28udKM8
+Content-Type: application/json
+
+{
+    "username": "agung",
+    "fullName": "Agung Mantra",
+    "gender": "Laki-laki",
+    "stressLevel": 3,
+    "favoriteActivity": "Mendengarkan musik"
+}

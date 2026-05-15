@@ -1,4 +1,6 @@
 const authService = require('../services/authService');
+const pool = require('../config/db');
+const bcrypt = require("bcrypt");
 
 exports.register = async (req, res) => {
 
@@ -6,8 +8,8 @@ exports.register = async (req, res) => {
 
         const result = await authService.register(req.body);
 
-        res.status(201).json(result);
-
+        res.status(201).json(result)
+        
     } catch (error) {
 
         res.status(500).json({
@@ -21,14 +23,47 @@ exports.login = async (req, res) => {
 
     try {
 
+        // LOGIN SERVICE
         const result = await authService.login(req.body);
 
-        res.json(result);
+        // AMBIL USER ID
+        const userId = result.user.id;
+
+        // CEK APAKAH USER SUDAH PERSONALISASI
+        const profileResult = await pool.query(
+            `
+            SELECT *
+            FROM user_profiles
+            WHERE user_id = $1
+            `,
+            [userId]
+        );
+
+        // TRUE JIKA PROFILE ADA
+        const profileCompleted =
+                profileResult.rows.length > 0;
+
+        // RESPONSE FINAL
+        res.json({
+
+            success: true,
+
+            message: "Login berhasil",
+
+            token: result.token,
+
+            user: result.user,
+
+            profile_completed:
+                    profileCompleted
+        });
 
     } catch (error) {
 
         res.status(401).json({
+
             success: false,
+
             message: error.message
         });
     }
@@ -50,6 +85,7 @@ exports.profile = async (req, res) => {
     }
 };
 
+// Change Password
 exports.changePassword = async (req, res) => {
 
     try {
@@ -70,6 +106,7 @@ exports.changePassword = async (req, res) => {
     }
 };
 
+// Forgot password
 exports.forgotPassword = async (req, res) => {
 
     try {
@@ -87,3 +124,64 @@ exports.forgotPassword = async (req, res) => {
         });
     }
 };
+
+//Reset Password
+exports.resetPassword = async (req, res) => {
+
+    try {
+
+        const { email, newPassword } = req.body;
+
+        // VALIDASI
+        if (!email || !newPassword) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Email dan password wajib diisi"
+            });
+        }
+
+        // CEK USER
+        const userResult = await pool.query(
+            "SELECT * FROM users WHERE email = $1",
+            [email]
+        );
+
+        if (userResult.rows.length === 0) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Email tidak ditemukan"
+            });
+        }
+
+        // HASH PASSWORD
+        const hashedPassword =
+                await bcrypt.hash(newPassword, 10);
+
+        // UPDATE PASSWORD
+        await pool.query(
+            `
+            UPDATE users
+            SET password = $1
+            WHERE email = $2
+            `,
+            [hashedPassword, email]
+        );
+
+        res.json({
+            success: true,
+            message: "Password berhasil diperbarui"
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
