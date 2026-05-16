@@ -144,3 +144,8 @@ Content-Type: application/json
     "stressLevel": 3,
     "favoriteActivity": "Mendengarkan musik"
 }
+
+### GET PROFILE IMAGE
+GET http://localhost:5000/api/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzc4OTA0NDgyLCJleHAiOjE3Nzk1MDkyODJ9.vWmzY1_OZamWmD_a8YU7-4EHJG1AyQ_xFhXBi1DNG6Q
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzc4OTA0NDgyLCJleHAiOjE3Nzk1MDkyODJ9.vWmzY1_OZamWmD_a8YU7-4EHJG1AyQ_xFhXBi1DNG6Q

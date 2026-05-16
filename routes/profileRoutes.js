@@ -5,9 +5,14 @@ const router = express.Router();
 const authMiddleware =
         require('../middleware/authMiddleware');
 
+const upload =
+        require('../middleware/uploadMiddleware');
+
 const {
     setupProfile,
-    getProfile
+    updateProfile,
+    getProfile,
+    uploadPhoto
 } = require('../controllers/profileController');
 
 router.post(
@@ -22,4 +27,16 @@ router.get(
     getProfile
 );
 
+router.put(
+    '/',
+    authMiddleware,
+    updateProfile
+);
+
+router.put(
+    '/upload-photo',
+    authMiddleware,
+    upload.single('photo'),
+    uploadPhoto
+);
 module.exports = router;
