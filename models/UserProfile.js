@@ -40,13 +40,22 @@ const createProfile = async (
 const getProfileByUserId = async (userId) => {
 
     const result = await pool.query(
-        `
-        SELECT *
-        FROM user_profiles
-        WHERE user_id = $1
-        `,
-        [userId]
-    );
+    `
+    SELECT
+        up.username,
+        up.full_name,
+        up.gender,
+        up.stress_level,
+        up.favorite_activity,
+        up.profile_picture,
+        u.email
+    FROM user_profiles up
+    JOIN users u
+        ON up.user_id = u.id
+    WHERE up.user_id = $1
+    `,
+    [userId]
+);
 
     return result.rows[0];
 };
