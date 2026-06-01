@@ -6,23 +6,34 @@ exports.create = async (data) => {
         `
         INSERT INTO journals(
             tanggal,
+            judul,
             isi,
             streak,
-            user_id
+            user_id,
+            image_path
         )
-        VALUES($1, $2, $3, $4)
+        VALUES(
+            CURRENT_DATE,
+            $1,
+            $2,
+            $3,
+            $4,
+            $5
+        )
         RETURNING *
         `,
         [
-            data.tanggal,
+            data.judul,
             data.isi,
             data.streak,
-            data.user_id
+            data.user_id,
+            data.image_path
         ]
     );
 
     return result.rows[0];
 };
+
 
 exports.findByUser = async (userId) => {
 
@@ -43,3 +54,4 @@ exports.getLatestJournal = async (userId) => {
 
     return result.rows[0];
 };
+
