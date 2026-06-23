@@ -38,7 +38,7 @@ exports.create = async (data) => {
 exports.findByUser = async (userId) => {
 
     const result = await pool.query(
-        'SELECT * FROM journals WHERE user_id = $1 ORDER BY tanggal DESC',
+        'SELECT * FROM journals WHERE user_id = $1 ORDER BY created_at DESC',
         [userId]
     );
 
@@ -48,7 +48,7 @@ exports.findByUser = async (userId) => {
 exports.getLatestJournal = async (userId) => {
 
     const result = await pool.query(
-        'SELECT * FROM journals WHERE user_id = $1 ORDER BY tanggal DESC LIMIT 1',
+        'SELECT * FROM journals WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1',
         [userId]
     );
 
