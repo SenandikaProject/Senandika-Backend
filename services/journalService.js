@@ -1,4 +1,5 @@
 const Journal = require("../models/Journal");
+const pool = require('../config/db');
 
 exports.createJournal = async (data) => {
   let streak = 1;
@@ -59,4 +60,28 @@ exports.getStreak = async (userId) => {
   return {
     streak: diffDays <= 1 ? latestJournal.streak : 0,
   };
+};
+
+exports.updateJournal = async (id, userId, data) => {
+    return await Journal.update(id, userId, data);
+};
+
+exports.deleteJournals = async (targetIds, userId) => {
+    // targetIds adalah array, contoh: [14, 15, 18] atau [14]
+    const result = await pool.query(
+        `
+        DELETE FROM journals 
+        WHERE id = ANY($1::int[]) 
+        AND user_id = $2 
+        RETURNING id
+        `,
+        [targetIds, userId] // $1 = array of ID, $2 = userId (keamanan agar tak hapus milik orang lain)
+    );
+
+    // Mengembalikan jumlah baris yang berhasil dihapus
+    return result.rowCount; 
+};
+
+exports.getJournalById = async (id, userId) => {
+    return await Journal.findById(id, userId);
 };

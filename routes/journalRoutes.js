@@ -10,4 +10,9 @@ router.post('/', authMiddleware,upload.single('image'), journalController.create
 router.get('/', authMiddleware, journalController.getJournals);
 router.get('/streak', authMiddleware, journalController.getStreak);
 
+router.get('/:id', authMiddleware, journalController.getJournalById);
+router.put('/:id', authMiddleware, upload.single('image'), journalController.updateJournal);
+router.delete('/:id', authMiddleware, journalController.deleteJournals); // Untuk hapus satu per satu
+router.delete('/', authMiddleware, journalController.deleteJournals);    // Untuk bulk delete via query (?ids=1,2,3)
+
 module.exports = router;
